@@ -2,17 +2,26 @@
 Imports System.Diagnostics
 Public Class Form1
     Private trd As Thread
+    Private trdLabel As Thread
+
     Private Sub ButtonScan_Click(sender As Object, e As EventArgs) Handles ButtonScan.Click
         LabelStatus.Text = "Keresés..."
         TextBoxScanResult.Text = vbNullString
         TextBoxWIWE.Text = vbNullString
+        'trdLabel = New Thread(AddressOf ThreadTaskLabel)
+        'trdLabel.Priority = ThreadPriorityLevel.Highest
+        'trdLabel.IsBackground = True
+        'trdLabel.Start()
         trd = New Thread(AddressOf ThreadTask)
+        trd.Priority = ThreadPriorityLevel.Normal
         trd.IsBackground = True
         Debug.Print("Thread starts: " & Now)
         trd.Start()
 
     End Sub
-
+    Private Sub ThreadTaskLabel()
+        Call SetLabelText("Keresés...")
+    End Sub
     Private Sub ThreadTask()
         'A BT kezelés külön threadben legyen, különben elsőbbséget élvez
         'és nem enged a futás végéig semmit csinálni
